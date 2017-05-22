@@ -20,8 +20,8 @@ namespace periodic
 	void addElement(std::string symbol, ElementInfo *element);
 	void deleteElement(std::string symbol);
 
-	ElementInfo *importElement(std::string file);
-	void exportElement(std::string symbol);
+	ElementInfo *importElement(std::string filePath);
+	void exportElement(std::string symbol, std::string filePath);
 
 	ElementInfo *getElement(std::string symbol);
 
