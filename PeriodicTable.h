@@ -16,19 +16,6 @@ namespace periodic
 		ElementInfo() {}
 		ElementInfo(const std::string& name, double weight, int number) : element_name(name), atomic_weight(weight), atomic_number(number) {}
 	};
-	
-	void addElement(std::string symbol, ElementInfo *element);
-	void deleteElement(std::string symbol);
-
-	ElementInfo *importElement(std::string filePath);
-	void exportElement(std::string symbol, std::string filePath);
-
-	ElementInfo *getElement(std::string symbol);
-
-	void listAllElements();
-
-	void addElementPrompt();
-	void deleteElementPrompt();
 
 	typedef std::map<std::string, ElementInfo*> PeriodicTable;
 
@@ -44,6 +31,7 @@ namespace periodic
 
 	void initializePeriodicTable()
 	{
+		pt[" "] = new ElementInfo("", NULL, NULL);
 		pt["H"] = new ElementInfo("Hydrogen", 1.00794, 1);
 		pt["He"] = new ElementInfo("Helium", 4.002602, 2);
 		pt["Li"] = new ElementInfo("Lithium", 6.941, 3);
@@ -164,11 +152,6 @@ namespace periodic
 		pt["Uuo"] = new ElementInfo("Ununoctium", 294, 118);
 	}
 
-	void addElement(std::string symbol, ElementInfo *element)
-	{
-		pt[symbol] = element;
-	}
-
 	void deleteElement(std::string symbol)
 	{
 		ElementInfo* el = pt[symbol];
@@ -176,47 +159,6 @@ namespace periodic
 		pt[symbol] = NULL;
 
 		delete el;
-	}
-
-	ElementInfo *importElement(std::string filePath)
-	{
-		//TODO read an element from a file and return it.
-
-		return NULL;
-	}
-
-	void exportElement(std::string symbol, std::string filePath)
-	{
-		//TODO save the specified element to a file.
-	}
-
-	ElementInfo *getElement(std::string symbol)
-	{
-		//TODO search for a given element.
-	}
-
-	void listAllElements()
-	{
-		//TODO print all keys from the periodic table.
-	}
-
-	void addElementPrompt()
-	{
-		std::string symbol;
-		ElementInfo *info = new ElementInfo();
-
-		//TODO fill symbol and info with user input
-
-		addElement(symbol, info);
-	}
-
-	void deleteElementPrompt()
-	{
-		std::string symbol;
-
-		//TODO fill symbol with user input
-
-		deleteElement(symbol);
 	}
 
 }
