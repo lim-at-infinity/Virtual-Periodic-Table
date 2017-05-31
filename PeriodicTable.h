@@ -16,6 +16,9 @@ namespace periodic
 		ElementInfo() {}
 		ElementInfo(const std::string& name, double weight, int number) : element_name(name), atomic_weight(weight), atomic_number(number) {}
 	};
+
+	void displayMainMenu();
+	char getMainMenuInput();
 	
 	void addElement(std::string symbol, ElementInfo *element);
 	void deleteElement(std::string symbol);
@@ -164,6 +167,27 @@ namespace periodic
 		pt["Uuo"] = new ElementInfo("Ununoctium", 294, 118);
 	}
 
+	void displayMainMenu()
+	{
+		std::cout << "1. Add Element\n2. Remove Element\n3. Find Element\n4. View All\n";
+	}
+
+	char getMainMenuInput()
+	{
+		char input = ' ';
+
+		std::cin >> input;
+
+		while (input != '1' && input != '2' && input != '3' && input != '4')
+		{
+			std::cout << "Invalid Input. Try again:" << std::endl;
+
+			std::cin >> input;
+		}
+
+		return input;
+	}
+
 	void addElement(std::string symbol, ElementInfo *element)
 	{
 		pt[symbol] = element;
@@ -193,11 +217,24 @@ namespace periodic
 	ElementInfo *getElement(std::string symbol)
 	{
 		//TODO search for a given element.
+
+		return NULL;
 	}
 
 	void listAllElements()
 	{
 		//TODO print all keys from the periodic table.
+		PeriodicTable::iterator it = pt.begin();
+		PeriodicTable::iterator end = --pt.end();
+
+		while (it != end)
+		{
+			std::cout << it->first << ", ";
+
+			it++;
+		}
+
+		std::cout << end->first << std::endl;
 	}
 
 	void addElementPrompt()
