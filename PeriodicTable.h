@@ -9,7 +9,7 @@ namespace periodic
 {
 	enum MenuState
 	{
-		MAIN, 
+		MAIN,
 		TABLE_SEARCH, TABLE_ADD, TABLE_REMOVE, TABLE_EXPORT, TABLE_LIST,
 		ELEMENT_OPTIONS, ELEMENT_ADD, ELEMENT_EDIT, ELEMENT_IMPORT, ELEMENT_EXPORT
 	};
@@ -33,7 +33,7 @@ namespace periodic
 
 	std::string promptUserStr(std::string msg, std::string cancelCmd, MenuState cancelMenu);
 	double promptUserDbl(std::string msg, std::string cancelCmd, MenuState cancelMenu);
-	
+
 	ElementInfo *createElement(std::string name, double weight, double number);
 
 	void importTable(std::string filePath);
@@ -243,11 +243,19 @@ namespace periodic
 	void importTable(std::string filePath)
 	{
 		//TODO import a table of elements from the specified filepath.
+		std::cout << "File path is " << filePath;
+		std::cout << std::endl;
+		fileIn.open(filePath);
+		fileIn.close();
 	}
 
 	void exportTable(std::string filePath)
 	{
 		//TODO export the current table of elements to the specified filepath.
+		std::cout << "File path is " << filePath;
+		std::cout << std::endl;
+		fileOut.open(filePath);
+		fileOut.close();
 	}
 
 	ElementInfo *createElement(std::string name, double weight, double number)
@@ -272,15 +280,36 @@ namespace periodic
 	ElementInfo *importElement(std::string filePath)
 	{
 		//TODO read an element from a file and return it.
+		ElementInfo* importElement = new ElementInfo;
+		std::string symbol;
+
 		std::cout << "File path is " << filePath << std::endl;
-		return NULL;
+		std::cout << std::endl;
+		fileIn.open(filePath);
+		fileIn >> symbol;
+		fileIn >> importElement->element_name;
+		fileIn >> importElement->atomic_weight;
+		fileIn >> importElement->atomic_number;
+		fileIn.close();
+
+		return importElement;
 	}
 
 	void exportElement(std::string symbol, std::string filePath)
 	{
 		//TODO save the specified element to a file.
+		//"Rutherfordium", 261, 104
+		ElementInfo* exportElement = pt[symbol];
+
 		std::cout << "File path is " << filePath;
-			th << std::endl;
+		std::cout << std::endl;
+		fileOut.open(filePath);
+		fileOut << symbol << std::endl;
+		fileOut << exportElement->element_name << std::endl;
+		fileOut << exportElement->atomic_weight << std::endl;
+		fileOut << exportElement->atomic_number << std::endl;
+
+		fileOut.close();
 	}
 
 	ElementInfo *getElement(std::string symbol)

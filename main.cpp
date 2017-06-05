@@ -19,21 +19,21 @@ int main()
 
 			switch (input)
 			{
-				case '1':
-					menu = TABLE_SEARCH;
-					break;
-				case '2':
-					menu = TABLE_ADD;
-					break;
-				case '3':
-					menu = TABLE_REMOVE;
-					break;
-				case '4':
-					menu = TABLE_EXPORT;
-					break;
-				case '5':
-					menu = TABLE_LIST;
-					break;
+			case '1':
+				menu = TABLE_SEARCH;
+				break;
+			case '2':
+				menu = TABLE_ADD;
+				break;
+			case '3':
+				menu = TABLE_REMOVE;
+				break;
+			case '4':
+				menu = TABLE_EXPORT;
+				break;
+			case '5':
+				menu = TABLE_LIST;
+				break;
 			}
 		}
 		else if (menu == TABLE_SEARCH)
@@ -44,8 +44,8 @@ int main()
 
 			if (element != nullptr)
 			{
-				std::cout << "Element Name: "  << element->element_name  << std::endl;
-				std::cout << "Atomic Symbol: " << currentSymbol          << std::endl;
+				std::cout << "Element Name: " << element->element_name << std::endl;
+				std::cout << "Atomic Symbol: " << currentSymbol << std::endl;
 				std::cout << "Atomic Weight: " << element->atomic_weight << std::endl;
 				std::cout << "Atomic Number: " << element->atomic_number << std::endl;
 
@@ -65,19 +65,19 @@ int main()
 
 			switch (input)
 			{
-				case '1':
-					menu = ELEMENT_ADD;
-					break;
-				case '2':
-					menu = ELEMENT_IMPORT;
-					break;
-				case '3':
-					menu = MAIN;
+			case '1':
+				menu = ELEMENT_ADD;
+				break;
+			case '2':
+				menu = ELEMENT_IMPORT;
+				break;
+			case '3':
+				menu = MAIN;
 			}
 		}
 		else if (menu == TABLE_REMOVE)
 		{
-			std::string symbol= promptUserStr("Please Enter an Element Symbol", "CANCEL", MAIN); if (symbol == "CANCEL") continue;
+			std::string symbol = promptUserStr("Please Enter an Element Symbol", "CANCEL", MAIN); if (symbol == "CANCEL") continue;
 
 			ElementInfo *element = pt[symbol];
 
@@ -117,33 +117,39 @@ int main()
 
 			switch (input)
 			{
-				case '1':
+			case '1':
 
-					menu = MAIN;
-					break;
-				case '2':
+				menu = MAIN;
+				break;
+			case '2':
 
-					file = promptUserStr("Please Enter a File to Import", "CANCEL", ELEMENT_OPTIONS); if (file == "CANCEL") continue;
+				file = promptUserStr("Please Enter a File to Import", "CANCEL", ELEMENT_OPTIONS); if (file == "CANCEL") continue;
 
-					imported = importElement(file);
+				imported = importElement(file);
 
-					std::cout << imported->element_name << " Successfully Imported." << std::endl;
+				std::cout << imported->element_name << " Successfully Imported." << std::endl;
 
-					pt[currentSymbol] = imported;
-					break;
-				case '3':
+				pt[currentSymbol] = imported;
+				break;
+			case '3':
 
-					menu = MAIN;
-					break;
-				case '4':
-					std::cout << pt[currentSymbol]->element_name << " Succesfully Removed." << std::endl;
-					deleteElement(currentSymbol);
+				file = promptUserStr("Please Enter a File to Export", "CANCEL", ELEMENT_OPTIONS); if (file == "CANCEL") continue;
 
-					menu = MAIN;
-					break;
-				case '5':
-					menu = MAIN;
-					break;
+				exportElement(currentSymbol,file);
+
+				std::cout << pt[currentSymbol]->element_name << " Successfully Exported." << std::endl;
+
+				menu = MAIN;
+				break;
+			case '4':
+				std::cout << pt[currentSymbol]->element_name << " Succesfully Removed." << std::endl;
+				deleteElement(currentSymbol);
+
+				menu = MAIN;
+				break;
+			case '5':
+				menu = MAIN;
+				break;
 			}
 		}
 		else if (menu == ELEMENT_ADD)
@@ -154,10 +160,10 @@ int main()
 			double atomic_weight;
 			double atomic_num;
 
-			name          = promptUserStr("Please Enter an Element Name", "CANCEL", TABLE_ADD);   if (name == "CANCEL") continue;
-			symbol        = promptUserStr("Please Enter an Atomic Symbol", "CANCEL", TABLE_ADD);  if (symbol == "CANCEL") continue;
+			name = promptUserStr("Please Enter an Element Name", "CANCEL", TABLE_ADD);   if (name == "CANCEL") continue;
+			symbol = promptUserStr("Please Enter an Atomic Symbol", "CANCEL", TABLE_ADD);  if (symbol == "CANCEL") continue;
 			atomic_weight = promptUserDbl("Please Enter an Atomic Weight", "CANCEL", TABLE_ADD);  if (atomic_weight == _DMAX) continue;
-			atomic_num    = promptUserDbl("Please Enter an Atomic Number", "CANCEL", TABLE_ADD);  if (atomic_num == _DMAX) continue;
+			atomic_num = promptUserDbl("Please Enter an Atomic Number", "CANCEL", TABLE_ADD);  if (atomic_num == _DMAX) continue;
 
 			ElementInfo *newElement = createElement(name, atomic_weight, atomic_num);
 
@@ -179,11 +185,9 @@ int main()
 	/*PeriodicTable::iterator it = pt.begin();//pt.find("H");
 	while (it != pt.end())
 	{
-		ElementInfo el = it->second;
-
-		fileOut << it->first << SEP << el.element_name << SEP << el.atomic_weight << SEP << el.atomic_number << std::endl;
-
-		it++;
+	ElementInfo el = it->second;
+	fileOut << it->first << SEP << el.element_name << SEP << el.atomic_weight << SEP << el.atomic_number << std::endl;
+	it++;
 	}*/
 
 	fileOut.close();
