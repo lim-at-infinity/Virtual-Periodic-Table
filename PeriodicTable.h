@@ -11,7 +11,7 @@ namespace periodic
 	{
 		MAIN, 
 		TABLE_SEARCH, TABLE_ADD, TABLE_REMOVE, TABLE_EXPORT, TABLE_LIST,
-		ELEMENT_ADD, ELEMENT_IMPORT
+		ELEMENT_OPTIONS, ELEMENT_ADD, ELEMENT_EDIT, ELEMENT_IMPORT, ELEMENT_EXPORT
 	};
 
 	struct ElementInfo
@@ -31,10 +31,13 @@ namespace periodic
 
 	void displayMainMenu();
 
-	std::string subMenuPromptStr(std::string msg, std::string cancelCmd, MenuState cancelMenu);
-	double subMenuPromptDbl(std::string msg, std::string cancelCmd, MenuState cancelMenu);
+	std::string promptUserStr(std::string msg, std::string cancelCmd, MenuState cancelMenu);
+	double promptUserDbl(std::string msg, std::string cancelCmd, MenuState cancelMenu);
 	
 	ElementInfo *createElement(std::string name, double weight, double number);
+
+	void importTable(std::string filePath);
+	void exportTable(std::string filePath);
 
 	void addElement(std::string symbol, ElementInfo *element);
 	void deleteElement(std::string symbol);
@@ -190,7 +193,7 @@ namespace periodic
 		std::cout << "1. Search\n2. Add Element\n3. Remove Element\n4. Export Table\n5. View All\n";
 	}
 
-	std::string subMenuPromptStr(std::string msg, std::string cancelCmd, MenuState cancelMenu)
+	std::string promptUserStr(std::string msg, std::string cancelCmd, MenuState cancelMenu)
 	{
 		std::string input = "";
 
@@ -205,7 +208,7 @@ namespace periodic
 		return input;
 	}
 
-	double subMenuPromptDbl(std::string msg, std::string cancelCmd, MenuState cancelMenu)
+	double promptUserDbl(std::string msg, std::string cancelCmd, MenuState cancelMenu)
 	{
 		std::string input = "";
 
@@ -237,6 +240,16 @@ namespace periodic
 		return input;
 	}
 
+	void importTable(std::string filePath)
+	{
+		//TODO import a table of elements from the specified filepath.
+	}
+
+	void exportTable(std::string filePath)
+	{
+		//TODO export the current table of elements to the specified filepath.
+	}
+
 	ElementInfo *createElement(std::string name, double weight, double number)
 	{
 		return new ElementInfo(name, weight, number);
@@ -251,7 +264,7 @@ namespace periodic
 	{
 		ElementInfo* el = pt[symbol];
 
-		pt[symbol] = NULL;
+		pt.erase(symbol);
 
 		delete el;
 	}
@@ -275,7 +288,6 @@ namespace periodic
 
 	void listAllElements()
 	{
-		//TODO print all keys from the periodic table.
 		PeriodicTable::iterator it = pt.begin();
 		PeriodicTable::iterator end = --pt.end();
 

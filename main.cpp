@@ -7,6 +7,7 @@ int main()
 	initializePeriodicTable();
 
 	char input;
+	std::string currentSymbol;
 
 	while (true)
 	{
@@ -37,7 +38,24 @@ int main()
 		}
 		else if (menu == TABLE_SEARCH)
 		{
-			std::cout << "Search for: ";
+			currentSymbol = promptUserStr("Please Enter an Atomic Symbol to Search For", "CANCEL", MAIN); if (currentSymbol == "CANCEL") continue;
+
+			ElementInfo *element = pt[currentSymbol];
+
+			if (element != nullptr)
+			{
+				std::cout << "Element Name: "  << element->element_name  << std::endl;
+				std::cout << "Atomic Symbol: " << currentSymbol          << std::endl;
+				std::cout << "Atomic Weight: " << element->atomic_weight << std::endl;
+				std::cout << "Atomic Number: " << element->atomic_number << std::endl;
+
+				menu = ELEMENT_OPTIONS;
+			}
+			else
+			{
+				std::cout << "Could Not Find an Element With the Symbol '" << currentSymbol << "'" << std::endl;
+				menu = MAIN;
+			}
 		}
 		else if (menu == TABLE_ADD)
 		{
@@ -59,7 +77,7 @@ int main()
 		}
 		else if (menu == TABLE_REMOVE)
 		{
-			std::string symbol = subMenuPromptStr("Please Enter an Element Symbol", "CANCEL", MAIN); if (symbol == "CANCEL") continue;
+			std::string symbol= promptUserStr("Please Enter an Element Symbol", "CANCEL", MAIN); if (symbol == "CANCEL") continue;
 
 			ElementInfo *element = pt[symbol];
 
@@ -75,14 +93,49 @@ int main()
 		}
 		else if (menu == TABLE_EXPORT)
 		{
-			std::cout << "Please Enter a Filepath: ";
+			std::string filePath = promptUserStr("Please Enter a File Path", "CANCEL", MAIN); if (filePath == "CANCEL") continue;
 
-			//TODO save the current table to a specified file.
+			exportTable(filePath);
+
+			std::cout << "Table Successfully Exported." << std::endl;
+
+			menu = MAIN;
 		}
 		else if (menu == TABLE_LIST)
 		{
 			listAllElements();
 			menu = MAIN;
+		}
+		else if (menu == ELEMENT_OPTIONS)
+		{
+			std::cout << "1. Edit\n2. Import\n3. Export\n4. Remove\n5. Return to Main\n";
+
+			char input = getNextInput('1', '5');
+
+			switch (input)
+			{
+				case '1':
+
+					menu = MAIN;
+					break;
+				case '2':
+
+					menu = MAIN;
+					break;
+				case '3':
+
+					menu = MAIN;
+					break;
+				case '4':
+					std::cout << pt[currentSymbol]->element_name << " Succesfully Removed." << std::endl;
+					deleteElement(currentSymbol);
+
+					menu = MAIN;
+					break;
+				case '5':
+					menu = MAIN;
+					break;
+			}
 		}
 		else if (menu == ELEMENT_ADD)
 		{
@@ -92,10 +145,10 @@ int main()
 			double atomic_weight;
 			double atomic_num;
 
-			name          = subMenuPromptStr("Please Enter an Element Name", "CANCEL", TABLE_ADD);   if (name == "CANCEL") continue;
-			symbol        = subMenuPromptStr("Please Enter an Atomic Symbol", "CANCEL", TABLE_ADD);  if (symbol == "CANCEL") continue;
-			atomic_weight = subMenuPromptDbl("Please Enter an Atomic Weight", "CANCEL", TABLE_ADD);  if (atomic_weight == _DMAX) continue;
-			atomic_num    = subMenuPromptDbl("Please Enter an Atomic Number", "CANCEL", TABLE_ADD);  if (atomic_num == _DMAX) continue;
+			name          = promptUserStr("Please Enter an Element Name", "CANCEL", TABLE_ADD);   if (name == "CANCEL") continue;
+			symbol        = promptUserStr("Please Enter an Atomic Symbol", "CANCEL", TABLE_ADD);  if (symbol == "CANCEL") continue;
+			atomic_weight = promptUserDbl("Please Enter an Atomic Weight", "CANCEL", TABLE_ADD);  if (atomic_weight == _DMAX) continue;
+			atomic_num    = promptUserDbl("Please Enter an Atomic Number", "CANCEL", TABLE_ADD);  if (atomic_num == _DMAX) continue;
 
 			ElementInfo *newElement = createElement(name, atomic_weight, atomic_num);
 
@@ -108,6 +161,7 @@ int main()
 		else if (menu == ELEMENT_IMPORT)
 		{
 			//TODO import an element from a specified file.
+			menu = MAIN;
 		}
 	}
 
