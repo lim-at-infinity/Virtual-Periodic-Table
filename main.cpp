@@ -41,9 +41,9 @@ int main()
 		}
 		else if (menu == TABLE_ADD)
 		{
-			std::cout << "1. Add New\n2. Import From File\n";
+			std::cout << "1. Add New\n2. Import From File\n3. Cancel\n";
 
-			input = getNextInput('1', '2');
+			input = getNextInput('1', '3');
 
 			switch (input)
 			{
@@ -53,6 +53,8 @@ int main()
 				case '2':
 					menu = ELEMENT_IMPORT;
 					break;
+				case '3':
+					menu = MAIN;
 			}
 		}
 		else if (menu == TABLE_REMOVE)
@@ -74,7 +76,24 @@ int main()
 		}
 		else if (menu == ELEMENT_ADD)
 		{
-			//TODO add a new element based on user input.
+			std::string name;
+			std::string symbol;
+
+			double atomic_weight;
+			double atomic_num;
+
+			name          = subMenuPromptStr("Please Enter an Element Name", "CANCEL", TABLE_ADD);   if (name == "CANCEL") continue;
+			symbol        = subMenuPromptStr("Please Enter an Atomic Symbol", "CANCEL", TABLE_ADD);  if (symbol == "CANCEL") continue;
+			atomic_weight = subMenuPromptDbl("Please Enter an Atomic Weight", "CANCEL", TABLE_ADD);  if (atomic_weight == _DMAX) continue;
+			atomic_num    = subMenuPromptDbl("Please Enter an Atomic Number", "CANCEL", TABLE_ADD);  if (atomic_num == _DMAX) continue;
+
+			ElementInfo *newElement = createElement(name, atomic_weight, atomic_num);
+
+			pt[symbol] = newElement;
+
+			std::cout << name << " Successfully Created." << std::endl;
+
+			menu = MAIN;
 		}
 		else if (menu == ELEMENT_IMPORT)
 		{

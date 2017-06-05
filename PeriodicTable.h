@@ -30,7 +30,12 @@ namespace periodic
 	char getNextInput(char from, char to);
 
 	void displayMainMenu();
+
+	std::string subMenuPromptStr(std::string msg, std::string cancelCmd, MenuState cancelMenu);
+	double subMenuPromptDbl(std::string msg, std::string cancelCmd, MenuState cancelMenu);
 	
+	ElementInfo *createElement(std::string name, double weight, double number);
+
 	void addElement(std::string symbol, ElementInfo *element);
 	void deleteElement(std::string symbol);
 
@@ -185,6 +190,37 @@ namespace periodic
 		std::cout << "1. Search\n2. Add Element\n3. Remove Element\n4. Export Table\n5. View All\n";
 	}
 
+	std::string subMenuPromptStr(std::string msg, std::string cancelCmd, MenuState cancelMenu)
+	{
+		std::string input = "";
+
+		std::cout << msg << " (Type " << cancelCmd << " to return to previous menu) : ";
+		std::cin >> input;
+
+		if (input == cancelCmd)
+		{
+			menu = cancelMenu;
+		}
+
+		return input;
+	}
+
+	double subMenuPromptDbl(std::string msg, std::string cancelCmd, MenuState cancelMenu)
+	{
+		std::string input = "";
+
+		std::cout << msg << " (Type " << cancelCmd << " to return to previous menu) : ";
+		std::cin >> input;
+
+		if (input == cancelCmd)
+		{
+			menu = cancelMenu;
+			return _DMAX;
+		}
+
+		return std::stod(input);
+	}
+
 	char getNextInput(char from, char to)
 	{
 		char input = '\0';
@@ -199,6 +235,11 @@ namespace periodic
 		}
 
 		return input;
+	}
+
+	ElementInfo *createElement(std::string name, double weight, double number)
+	{
+		return new ElementInfo(name, weight, number);
 	}
 
 	void addElement(std::string symbol, ElementInfo *element)
