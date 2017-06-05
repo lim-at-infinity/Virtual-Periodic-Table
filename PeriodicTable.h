@@ -7,6 +7,13 @@
 
 namespace periodic
 {
+	enum MenuState
+	{
+		MAIN, 
+		TABLE_SEARCH, TABLE_ADD, TABLE_REMOVE, TABLE_EXPORT, TABLE_LIST,
+		ELEMENT_ADD, ELEMENT_IMPORT
+	};
+
 	struct ElementInfo
 	{
 		std::string element_name;
@@ -17,8 +24,12 @@ namespace periodic
 		ElementInfo(const std::string& name, double weight, int number) : element_name(name), atomic_weight(weight), atomic_number(number) {}
 	};
 
+	/*
+	Returns the next char of user input that is in the range [from, to]
+	*/
+	char getNextInput(char from, char to);
+
 	void displayMainMenu();
-	char getMainMenuInput();
 	
 	void addElement(std::string symbol, ElementInfo *element);
 	void deleteElement(std::string symbol);
@@ -38,6 +49,8 @@ namespace periodic
 	const std::string SEP = " ";
 
 	PeriodicTable pt;
+
+	MenuState menu = MAIN;
 
 	/*Output stream for save file.*/
 	std::ofstream fileOut;
@@ -169,16 +182,16 @@ namespace periodic
 
 	void displayMainMenu()
 	{
-		std::cout << "1. Add Element\n2. Remove Element\n3. Find Element\n4. View All\n";
+		std::cout << "1. Search\n2. Add Element\n3. Remove Element\n4. Export Table\n5. View All\n";
 	}
 
-	char getMainMenuInput()
+	char getNextInput(char from, char to)
 	{
-		char input = ' ';
+		char input = '\0';
 
 		std::cin >> input;
 
-		while (input != '1' && input != '2' && input != '3' && input != '4')
+		while (!((input >= from) && (input <= to)))
 		{
 			std::cout << "Invalid Input. Try again:" << std::endl;
 

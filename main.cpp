@@ -6,13 +6,80 @@ int main()
 {
 	initializePeriodicTable();
 
-	displayMainMenu();
+	char input;
 
-	char input = getMainMenuInput();
-
-	if (input == '4')
+	while (true)
 	{
-		listAllElements();
+		if (menu == MAIN)
+		{
+			displayMainMenu();
+
+			input = getNextInput('1', '5');
+
+			switch (input)
+			{
+				case '1':
+					menu = TABLE_SEARCH;
+					break;
+				case '2':
+					menu = TABLE_ADD;
+					break;
+				case '3':
+					menu = TABLE_REMOVE;
+					break;
+				case '4':
+					menu = TABLE_EXPORT;
+					break;
+				case '5':
+					menu = TABLE_LIST;
+					break;
+			}
+		}
+		else if (menu == TABLE_SEARCH)
+		{
+			std::cout << "Search for: ";
+		}
+		else if (menu == TABLE_ADD)
+		{
+			std::cout << "1. Add New\n2. Import From File\n";
+
+			input = getNextInput('1', '2');
+
+			switch (input)
+			{
+				case '1':
+					menu = ELEMENT_ADD;
+					break;
+				case '2':
+					menu = ELEMENT_IMPORT;
+					break;
+			}
+		}
+		else if (menu == TABLE_REMOVE)
+		{
+			std::cout << "Please Enter an Element Name: ";
+
+			//TODO kill the specified element.
+		}
+		else if (menu == TABLE_EXPORT)
+		{
+			std::cout << "Please Enter a Filepath: ";
+
+			//TODO save the current table to a specified file.
+		}
+		else if (menu == TABLE_LIST)
+		{
+			listAllElements();
+			menu = MAIN;
+		}
+		else if (menu == ELEMENT_ADD)
+		{
+			//TODO add a new element based on user input.
+		}
+		else if (menu == ELEMENT_IMPORT)
+		{
+			//TODO import an element from a specified file.
+		}
 	}
 
 	fileOut.open("save.txt", std::ios::out | std::ios::trunc);
