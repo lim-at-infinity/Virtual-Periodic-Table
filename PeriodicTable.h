@@ -10,7 +10,7 @@ namespace periodic
 	enum MenuState
 	{
 		MAIN,
-		TABLE_SEARCH, TABLE_ADD, TABLE_REMOVE, TABLE_EXPORT, TABLE_LIST,
+		TABLE_SEARCH, TABLE_ADD, TABLE_REMOVE, TABLE_IMPORT, TABLE_EXPORT, TABLE_LIST,
 		ELEMENT_OPTIONS, ELEMENT_ADD, ELEMENT_EDIT, ELEMENT_IMPORT, ELEMENT_EXPORT
 	};
 
@@ -28,8 +28,6 @@ namespace periodic
 	Returns the next char of user input that is in the range [from, to]
 	*/
 	char getNextInput(char from, char to);
-
-	void displayMainMenu();
 
 	std::string promptUserStr(std::string msg, std::string cancelCmd, MenuState cancelMenu);
 	double promptUserDbl(std::string msg, std::string cancelCmd, MenuState cancelMenu);
@@ -188,16 +186,11 @@ namespace periodic
 		pt["Uuo"] = new ElementInfo("Ununoctium", 294, 118);
 	}
 
-	void displayMainMenu()
-	{
-		std::cout << "1. Search\n2. Add Element\n3. Remove Element\n4. Export Table\n5. View All\n";
-	}
-
 	std::string promptUserStr(std::string msg, std::string cancelCmd, MenuState cancelMenu)
 	{
 		std::string input = "";
 
-		std::cout << msg << " (Type " << cancelCmd << " to return to previous menu) : ";
+		std::cout << msg << " (Type " << cancelCmd << " to return to previous menu): ";
 		std::cin >> input;
 
 		if (input == cancelCmd)
@@ -212,7 +205,7 @@ namespace periodic
 	{
 		std::string input = "";
 
-		std::cout << msg << " (Type " << cancelCmd << " to return to previous menu) : ";
+		std::cout << msg << " (Type " << cancelCmd << " to return to previous menu): ";
 		std::cin >> input;
 
 		if (input == cancelCmd)
@@ -242,19 +235,47 @@ namespace periodic
 
 	void importTable(std::string filePath)
 	{
-		//TODO import a table of elements from the specified filepath.
 		std::cout << "File path is " << filePath;
 		std::cout << std::endl;
 		fileIn.open(filePath);
+
+		ElementInfo* importElement;
+		std::string symbol;
+
+		while (!fileIn.eof()) 
+		{
+			importElement = new ElementInfo;
+			fileIn >> symbol;
+			fileIn >> importElement->element_name;
+			fileIn >> importElement->atomic_weight;
+			fileIn >> importElement->atomic_number;
+
+			pt[symbol] = importElement;
+		}
+
 		fileIn.close();
 	}
 
 	void exportTable(std::string filePath)
 	{
-		//TODO export the current table of elements to the specified filepath.
 		std::cout << "File path is " << filePath;
 		std::cout << std::endl;
 		fileOut.open(filePath);
+		PeriodicTable::iterator it = pt.begin();
+
+		ElementInfo* importElement;
+		std::string symbol;
+
+		while (it != pt.end())
+		{
+			importElement = it->second;
+			fileOut << it->first << std::endl;
+			fileOut << importElement->element_name << std::endl;
+			fileOut << importElement->atomic_weight << std::endl;
+			fileOut << importElement->atomic_number << std::endl << std::endl;
+			it++;
+		}
+
 		fileOut.close();
 	}
 

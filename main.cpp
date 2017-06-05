@@ -13,9 +13,9 @@ int main()
 	{
 		if (menu == MAIN)
 		{
-			displayMainMenu();
+			std::cout << "1. Search\n2. Add Element\n3. Remove Element\n4. Import Table\n5. Export Table\n6. View All\n";
 
-			input = getNextInput('1', '5');
+			input = getNextInput('1', '6');
 
 			switch (input)
 			{
@@ -29,9 +29,12 @@ int main()
 				menu = TABLE_REMOVE;
 				break;
 			case '4':
-				menu = TABLE_EXPORT;
+				menu = TABLE_IMPORT;
 				break;
 			case '5':
+				menu = TABLE_EXPORT;
+				break;
+			case '6':
 				menu = TABLE_LIST;
 				break;
 			}
@@ -88,6 +91,18 @@ int main()
 				pt.erase(symbol);
 				delete element;
 			}
+
+			menu = MAIN;
+		}
+		else if (menu == TABLE_IMPORT)
+		{
+			std::string filePath = promptUserStr("Please Enter a File Path", "CANCEL", MAIN); if (filePath == "CANCEL") continue;
+
+			pt.clear();
+
+			importTable(filePath);
+
+			std::cout << "Table Successfully Imported." << std::endl;
 
 			menu = MAIN;
 		}
