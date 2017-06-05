@@ -270,9 +270,7 @@ namespace periodic
 
 	ElementInfo *getElement(std::string symbol)
 	{
-		//TODO search for a given element.
-
-		return NULL;
+		return pt[symbol];
 	}
 
 	void listAllElements()

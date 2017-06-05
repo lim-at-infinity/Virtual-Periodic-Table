@@ -59,9 +59,19 @@ int main()
 		}
 		else if (menu == TABLE_REMOVE)
 		{
-			std::cout << "Please Enter an Element Name: ";
+			std::string symbol = subMenuPromptStr("Please Enter an Element Symbol", "CANCEL", MAIN); if (symbol == "CANCEL") continue;
 
-			//TODO kill the specified element.
+			ElementInfo *element = pt[symbol];
+
+			if (element != nullptr)
+			{
+				std::cout << element->element_name << " Successfully Removed." << std::endl;
+
+				pt.erase(symbol);
+				delete element;
+			}
+
+			menu = MAIN;
 		}
 		else if (menu == TABLE_EXPORT)
 		{
