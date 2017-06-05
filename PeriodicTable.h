@@ -272,13 +272,15 @@ namespace periodic
 	ElementInfo *importElement(std::string filePath)
 	{
 		//TODO read an element from a file and return it.
-
+		std::cout << "File path is " << filePath << std::endl;
 		return NULL;
 	}
 
 	void exportElement(std::string symbol, std::string filePath)
 	{
 		//TODO save the specified element to a file.
+		std::cout << "File path is " << filePath;
+			th << std::endl;
 	}
 
 	ElementInfo *getElement(std::string symbol)

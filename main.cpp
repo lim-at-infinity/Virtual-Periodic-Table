@@ -112,6 +112,9 @@ int main()
 
 			char input = getNextInput('1', '5');
 
+			std::string file;
+			ElementInfo *imported;
+
 			switch (input)
 			{
 				case '1':
@@ -120,7 +123,13 @@ int main()
 					break;
 				case '2':
 
-					menu = MAIN;
+					file = promptUserStr("Please Enter a File to Import", "CANCEL", ELEMENT_OPTIONS); if (file == "CANCEL") continue;
+
+					imported = importElement(file);
+
+					std::cout << imported->element_name << " Successfully Imported." << std::endl;
+
+					pt[currentSymbol] = imported;
 					break;
 				case '3':
 
