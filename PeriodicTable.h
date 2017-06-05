@@ -235,8 +235,8 @@ namespace periodic
 
 	void importTable(std::string filePath)
 	{
-		std::cout << "File path is " << filePath;
 		std::cout << std::endl;
+
 		fileIn.open(filePath);
 
 		ElementInfo* importElement;
@@ -258,9 +258,10 @@ namespace periodic
 
 	void exportTable(std::string filePath)
 	{
-		std::cout << "File path is " << filePath;
 		std::cout << std::endl;
+
 		fileOut.open(filePath);
+
 		PeriodicTable::iterator it = pt.begin();
 
 		ElementInfo* importElement;
