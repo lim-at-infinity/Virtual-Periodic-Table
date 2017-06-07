@@ -130,9 +130,45 @@ int main()
 			std::string file;
 			ElementInfo *imported;
 
+			std::string symbol = "", name = "";
+			double weight = _DMAX, num = _DMAX;
+
+			ElementInfo *currentElement = pt[currentSymbol];
+
 			switch (input)
 			{
 			case '1':
+				std::cout << "Please Enter a New Atomic Symbol (or SKIP to Skip): ";
+				std::cin >> symbol;
+
+				std::cout << "Please Enter a New Name (or SKIP to Skip): ";
+				std::cin >> name;
+
+				std::cout << "Please Enter a New Atomic Weight (or -1 to Skip): ";
+				std::cin >> weight;
+
+				std::cout << "Please Enter a New Atomic Number (or -1 to Skip): ";
+				std::cin >> num;
+
+				if (symbol != "SKIP")
+				{
+					pt.erase(currentSymbol);
+					currentSymbol = symbol;
+
+					pt[currentSymbol] = currentElement;
+				}
+				if (name != "SKIP")
+				{
+					currentElement->element_name = name;
+				}
+				if (weight != -1)
+				{
+					currentElement->atomic_weight = weight;
+				}
+				if (num != -1)
+				{
+					currentElement->atomic_number = num;
+				}
 
 				menu = MAIN;
 				break;
@@ -190,22 +226,17 @@ int main()
 		}
 		else if (menu == ELEMENT_IMPORT)
 		{
-			//TODO import an element from a specified file.
+			std::string file = promptUserStr("Please Enter a File to Import", "CANCEL", MAIN); if (file == "CANCEL") continue;
+			std::string symbol = promptUserStr("Please Enter an Atomic Symbol", "CANCEL", MAIN); if (symbol == "CANCEL") continue;
+
+			ElementInfo *imported = importElement(file);
+
+			std::cout << imported->element_name << " Successfully Imported." << std::endl;
+
+			pt[symbol] = imported;
 			menu = MAIN;
 		}
 	}
-
-	fileOut.open("save.txt", std::ios::out | std::ios::trunc);
-
-	/*PeriodicTable::iterator it = pt.begin();//pt.find("H");
-	while (it != pt.end())
-	{
-	ElementInfo el = it->second;
-	fileOut << it->first << SEP << el.element_name << SEP << el.atomic_weight << SEP << el.atomic_number << std::endl;
-	it++;
-	}*/
-
-	fileOut.close();
 
 	return 0;
 }
